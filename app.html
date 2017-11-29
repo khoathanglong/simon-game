@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>The Simon Game</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class='container'>
+<ul class="circle">
+	<div class="transparent"><div class='text-center winContent'></div></div>
+	<div class='innerCircle'>
+		<div class="heading text-center"><h3>SIMON GAME</h3></div>
+		<div class="row">
+		   <div class="col-xs-4 text-center countGroup">
+		   <div class="countBox"><div class="countContent">--</div></div>Count</div>
+			
+			<div class="col-xs-4 startGroup">
+				<div class="start text-center"></div>Start</div>
+			
+			<div class="col-xs-4 strictGroup">
+				<div class="light"></div>
+				<div class="strict"></div>
+			Strict</div>
+		</div>
+		<div class="onOff row">
+			<div class="col-xs-3 ON">ON</div>
+			<div class='col-xs-6 switch'><span></span></div>
+			<div class="col-xs-3 OFF">OFF</div>
+		</div>
+	</div>
+	<li class="redCorner corner corner1"></li>
+	<li class="blueCorner corner corner2"></li>
+	<li class="greenCorner corner corner3"></li>
+	<li class="orangeCorner corner corner4"></li>
+</ul>
+</div>
+<audio id='soundRed' class='sound sound1'>
+    <source src="https://s3.amazonaws.com/freecodecamp/simonSound1.mp3" type="audio/mpeg">
+</audio>
+<audio id='soundBlue' class='sound sound2'>
+    <source src="https://s3.amazonaws.com/freecodecamp/simonSound2.mp3" type="audio/mpeg">
+</audio>
+<audio id='soundGreen' class='sound sound3'>
+    <source src="https://s3.amazonaws.com/freecodecamp/simonSound3.mp3" type="audio/mpeg">
+</audio>
+<audio id='soundOrange' class='sound sound4'>
+    <source src="https://s3.amazonaws.com/freecodecamp/simonSound4.mp3" type="audio/mpeg">
+</audio>
+<audio id='soundWrong'>
+    <source src="http://www.orangefreesounds.com/wp-content/uploads/2014/08/Wrong-answer-sound-effect.mp3" type="audio/mpeg">
+</audio>
+
+</body>
+<style>
+	audio{
+		z-index: 1000;
+	}
+	body{
+	background: -webkit-linear-gradient(#F5F5F5,#F5F5F5) center center fixed;
+	background: -o-linear-gradient(#F5F5F5,#F5F5F5) center center fixed;
+	background: linear-gradient(#F5F5F5,#F5F5F5) center center fixed; 
+	background-size: cover;
+	color:black;
+	    }
+    .circle{
+    	list-style: none;
+    	position: relative;
+    	top : 100px;
+    	height: 500px;
+    	width: 500px;
+    	background-color: white;
+    	border: solid 20px grey;
+    	border-radius: 100%;
+    	padding: 0px;
+    	overflow: hidden;
+      margin: 0 auto	
+    }
+	.redCorner{
+		position: absolute;
+		height: 50%;
+		width:50%;
+		background-color: darkred;
+		
+	}
+	.blueCorner{
+		position: absolute;
+		height: 50%;
+		width: 50%;
+		background-color: darkblue;
+		right: 0;
+		
+	}	
+	.greenCorner{
+		position: absolute;
+		height: 50%;
+		width: 50%;
+		background-color: darkgreen;
+		right: 0;
+		bottom: 0;
+		z-index: 10;
+	}
+	.orangeCorner{
+		position: absolute;
+		height: 50%;
+		width: 50%;
+		background-color: darkorange;
+		bottom: 0;
+		left: 0;	
+	}
+	li{
+		outline: solid 5px grey;
+		
+	}
+	.innerCircle{
+		position: absolute;
+		width: 50%;
+		height: 50%;
+		border-radius: 100%;
+		background-color: white;
+		z-index: 100;
+		transform: translate(50%, 50%);
+		border: solid 10px grey;
+	}
+	.countBox{
+		border: solid 5px grey ;
+		border-radius: 15%;
+		height: 30px;
+		width: 50px;
+		background: #470000;
+	}
+	.countContent{
+		font-weight: 900;
+		opacity: 0.1;
+		transform: scaleX(2);
+		color: white;
+		
+	}
+	.heading{
+		padding-top: 20px;
+	}
+	.row{
+		padding-top: 10px;
+		padding-left: 13px;
+
+	}
+	.countGroup{
+		left: 5px;
+	}
+	.startGroup{
+		left: 5px;
+	}
+	.strictGroup{
+		left: -10px;
+	}
+	.start{
+		background-color: red;
+		border: solid 2px grey; 
+		border-radius: 100%;
+		height: 30px;
+		width: 30px;
+	}
+	.light{
+		position: absolute;
+		background-color: darkred;
+		border: solid 1px grey;
+		border-radius: 100%;
+		height: 12px;
+		width: 12px;
+		top: -15px;
+		left: 23px;
+	}
+	.strict{
+		border: solid 2px grey; 
+		background-color: yellow;
+		border-radius: 100%;
+		height: 30px;
+		width: 30px;
+	}
+	.onOff{
+		padding-left: 47px;
+		margin: 0 auto;
+
+	}
+	.switch{
+		border: solid;
+		width: 40px;
+		height: 20px;
+	}
+	span{
+		position: absolute;
+		height: 100%;
+		width: 50%;
+		border: solid red;
+		background: red;
+		right: 0px;
+	}
+	.ON{
+		padding-right: 0;
+	}
+	.OFF{
+		padding-left: 2px;
+	}
+	.transparent{
+		position: absolute;
+		height: 100%;
+		width: 100%;
+		border-radius: 100%;
+		z-index: 0;
+	}
+
+</style>
+<script>
+$(document).ready(function(){
+	function repeat(randomList){//set repeated sounds
+		$('.transparent').css({'z-index':'999'});//could not click when sound is playing
+		randomList.forEach(function(value,index,arr){
+			setTimeout(function(){
+				$('.'+value).get(0).play();
+				$('.corner'+value.slice(value.length-1)).animate({opacity:'0.7'})
+														.animate({opacity:'1'},'fast');
+			},index*1000)
+			setTimeout(function(){
+				$('.transparent').css({'z-index':'0'});
+			},arr.length*1000+300)//after completing repeat sound, remove transparent so that you can click
+		});
+	}
+	var onMode;
+	var start=0;
+	var strict=false;
+	var randomList=[];
+	var guessList=[];
+	var count=1;
+	var allGuess=0;
+	var guess;
+	$('.switch').click(function(){
+		if($('span').attr('style')=='left: 0px;'){ //off mode
+			$('span, .countContent').removeAttr('style');
+			window.location.reload(true);
+		}else{ //on mode
+			$('span').animate({
+				left:'0px'
+			})
+			onMode=true;
+			$('.countContent').animate({opacity:'1'});
+		}
+	});
+	$('.strict').click(function(){
+		if($('.light').attr('style')=='background-color: red;'&&onMode==true){
+			$('.light').css({'background-color':'darkred'});
+			strict=false;
+		}else if(onMode==true){
+			$('.light').css({'background-color':'red'});
+			strict=true;
+		}
+	});
+	$('.start').click(function(){
+		count=1;
+		randomList=[];
+		guessList=[];
+		if(onMode==true){
+			start=1
+			var randomNum=Math.floor(Math.random()*4)+1;
+			$('.countContent').animate({opacity:'0.1'})
+								.animate({opacity:'1'})
+								.animate({opacity:'0.1'})
+								.animate({opacity:'1'});
+			setTimeout(function(){ //first auto play
+				if(count<10){
+					$('.countContent').text('0'+count);
+				}
+				else{
+					$('.countContent').text(count);
+				}
+				$('.sound'+randomNum).get(0).play();
+				$('.corner'+randomNum).animate({opacity:'0.7'})
+										.animate({opacity:'1'},'fast');
+				randomList.push('sound'+randomNum);
+			},1000)
+		}			
+	});
+	$('.corner').click(function(){//guessing part
+		if(start==1){	
+			var numPlay=$(this).attr('class').slice($(this).attr('class').length-1);//get corresponding number
+			$('.sound'+numPlay).get(0).play();
+			$(this).animate({opacity:'0.7'})
+					.animate({opacity:'1'},'fast');
+			guessList.push('sound'+numPlay);
+			allGuess=0;
+			for (var i=0; i< guessList.length;i++){//compare guessing and orginal sounds
+				if (randomList[i]==guessList[i]){
+					guess=true;//check if all guessing is true
+					allGuess+=1;//check if number of values in guessList==that in randomList
+					continue;
+				}
+				else{
+					guess=false;//if 1 sound is not correct, then all is wrong
+					break;
+				}
+			}
+			
+			if(guess==true&&allGuess==randomList.length){//case all the guess is true 
+				guessList=[];
+				if(count==20){
+					$('.transparent').css({'z-index':'999',
+											'background-color':'white',
+											'font-size':'50px',
+											'padding-top':'150px',
+											'padding-left':'20px'})
+										.text('Congrats, You Win')
+				}
+				else if(count<20)
+				  setTimeout(function(){
+					count+=1;
+					if(count<10){
+						$('.countContent').text('0'+count)
+					}
+					else if(count>=10){
+						$('.countContent').text(count)
+					}
+					var randomNum1=Math.floor(Math.random()*4)+1
+						repeat(randomList)//re-play all previous correct sounds
+						var nextTurntime=(count-1)*1000;
+						setTimeout(function(){//randomly play the next turn
+							$('.sound'+randomNum1).get(0).play();
+							$('.corner'+randomNum1).animate({opacity:'0.7'})
+													.animate({opacity:'1'},'fast')
+							randomList.push('sound'+randomNum1)
+						},nextTurntime)
+				  },1000)	
+			}
+			if(guess==false){
+				guessList=[];
+				$('#soundWrong').get(0).play();
+				$('.countContent').text('!!');
+				if (strict==false){
+					$('.transparent').css({'z-index':'999'});//let the transparent prevent user from click
+					$('.countContent').animate({opacity:'0.1'})
+									.animate({opacity:'1'})
+									.animate({opacity:'0.1'})
+									.animate({opacity:'1'});
+					setTimeout(function(){
+						repeat(randomList)
+					},2000)	
+				}
+				else if (strict==true){
+					$('.start').trigger('click')
+				}
+			}
+		}
+	});	
+});
+</script>
+</html>
